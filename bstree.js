@@ -206,15 +206,15 @@ export class Tree {
   }
 
   // returns height if balanced, -1 if any node is inbalanced
-  isBalanced(currentNode) {
+  checkBalanced(currentNode) {
     if (currentNode === null) {
       return 0;
     }
 
-    let leftHeight = this.isBalanced(currentNode.left);
+    let leftHeight = this.checkBalanced(currentNode.left);
     if (leftHeight === -1) return -1;
 
-    let rightHeight = this.isBalanced(currentNode.right);
+    let rightHeight = this.checkBalanced(currentNode.right);
     if (rightHeight === -1) return -1;
 
     if (Math.abs(leftHeight - rightHeight) > 1) {
@@ -225,28 +225,30 @@ export class Tree {
     return Math.max(leftHeight, rightHeight) + 1;
   }
 
-  // isBalanced(node) {
-  //   if (!this.levelOrder(node, this.checkBalance)) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-  // checkBalance(node) {
-  //   console.log(node.left);
-  //   // console.log(node.right);
-  //   let leftHeight, rightHeight;
-  //   if (node.left === null) {
-  //     leftHeight = 0;
-  //   } else {
-  //     leftHeight = this.getHeight(node.left);
-  //   }
-  //   if (node.right === null) {
-  //     rightHeight = 0;
-  //   } else {
-  //     rightHeight = this.getHeight(node.right);
-  //   }
-  //   return Math.abs(leftHeight - rightHeight) <= 1;
-  // }
+  isBalanced(node) {
+    if (this.checkBalanced(node) > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  rebalance(node) {
+    // check if the tree is balanced. If it is, do nothing
+    // if unbalanced, traverse the tree inorder and create an ordered array
+    // use the ordered array to build a new tree
+    if (this.checkBalanced(node) > 0) {
+      return;
+    } else {
+      let sortedArray = [];
+      this.inOrder(node, (node) => {
+        sortedArray.push(node.value);
+      });
+      let newTree = new Tree(sortedArray);
+      return newTree;
+    }
+  }
+  // Write a rebalance function that rebalances an unbalanced tree. Tip: You’ll want to use a traversal method to provide a new array to the buildTree function.
 }
 
 export const prettyPrint = (node, prefix = "", isLeft = true) => {
