@@ -248,7 +248,6 @@ export class Tree {
       return newTree;
     }
   }
-  // Write a rebalance function that rebalances an unbalanced tree. Tip: You’ll want to use a traversal method to provide a new array to the buildTree function.
 }
 
 export const prettyPrint = (node, prefix = "", isLeft = true) => {
